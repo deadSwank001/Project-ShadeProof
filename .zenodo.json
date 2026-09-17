@@ -1,0 +1,18 @@
+{
+  "title": "Project-ShadeProof",
+  "description": "PyQt-based surrogate model adversarial evaluation workflow with Neptune experiment tracking.",
+  "upload_type": "software",
+  "license": "Apache-2.0",
+  "creators": [
+    {
+      "name": "Burmeister, David"
+    }
+  ],
+  "keywords": [
+    "adversarial-evaluation",
+    "vision-language-models",
+    "diffusion",
+    "neptune",
+    "pyqt"
+  ]
+}
