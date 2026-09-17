@@ -1,18 +1,34 @@
 {
-  "title": "Project-ShadeProof",
-  "description": "PyQt-based surrogate model adversarial evaluation workflow with Neptune experiment tracking.",
+  "title": "Project-ShadeProof: Surrogate-Model Adversarial Evaluation and Data Poisoning Sanitization Framework",
+  "description": "An empirical benchmarking and evaluation framework for analyzing surrogate-model adversarial perturbations (e.g., Nightshade and Glaze concept-alignment attacks) and testing dataset sanitization defenses against text-to-image diffusion model data poisoning.",
   "upload_type": "software",
   "license": "Apache-2.0",
+  "access_right": "open",
   "creators": [
     {
-      "name": "Burmeister, David"
+      "name": "Burmeister, David",
+      "affiliation": "Independent Researcher"
     }
   ],
   "keywords": [
-    "adversarial-evaluation",
-    "vision-language-models",
-    "diffusion",
-    "neptune",
-    "pyqt"
+    "adversarial-machine-learning",
+    "data-poisoning",
+    "surrogate-models",
+    "diffusion-models",
+    "dataset-sanitization",
+    "clip-representation-shift",
+    "adversarial-robustness"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.22811993",
+      "relation": "isSupplementTo",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.22811994",
+      "relation": "isVersionOf",
+      "scheme": "doi"
+    }
   ]
 }
