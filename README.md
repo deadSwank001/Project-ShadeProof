@@ -100,7 +100,21 @@ flowchart LR
     end
     subgraph Evaluation ["Academic Evaluation & Metrics"]
         x_san --> Cosine["Latent Cosine Shift Δcos"]
- 
+        x_san --> Fidelity["PSNR / SSIM / L_inf Fidelity"]
+        x_san --> Telemetry["Neptune Telemetry & PyQt6 GUI"]
+    end
+```
+### 1. Attacker Optimization (Surrogate Concept Alignment)
+Let $x \in [0, 1]^{C \times H \times W}$ denote the clean input image and $y_{\text{tgt}}$ denote the targeted concept prompt. A surrogate vision-language encoder (e.g., CLIP ViT-B/32) maps visual inputs to normalized embeddings $f_{\text{img}}(x) \in \mathbb{S}^{d-1}$ and text prompts to $f_{\text{text}}(y_{\text{tgt}}) \in \mathbb{S}^{d-1}$.
+The attacker solves the constrained optimization problem:
+$$\min_{\delta} \; \mathcal{L}_{\text{adv}}(x + \delta) \quad \text{s.t.} \quad \|\delta\|_\infty \le \epsilon, \quad (x + \delta) \in [0, 1]^{C \times H \times W}$$
+where the objective maximizes cosine similarity to the target concept:
+$$\mathcal{L}_{\text{adv}}(x') = - \cos\left(f_{\text{img}}(x'), f_{\text{text}}(y_{\text{tgt}})\right) = - \frac{f_{\text{img}}(x') \cdot f_{\text{text}}(y_{\text{tgt}})}{\|f_{\text{img}}(x')\|_2 \|f_{\text{text}}(y_{\text{tgt}})\|_2}$$
+At iteration $t$, the Projected Gradient Descent update rule is:
+$$x'_{t+1} = \Pi_{x + \mathcal{S}_\epsilon} \left( x'_t - \alpha \cdot \text{sign}\left(\nabla_{x'_t} \mathcal{L}_{\text{adv}}(x'_t)\right) \right)$$
+where $\mathcal{S}_\epsilon = \{ \delta \mid \|\delta\|_\infty \le \epsilon \}$ and $\Pi$ denotes pixel-domain clipping to $[0, 1]$.
+### 2. Defender Formulation (Self-Correction & Sanitization)
+To prevent dataset pollution, a curator or downstream training pipeline applies a sanitization operator $\mathcal{T}_{\text{san}}: [0, 1]^{C \times H \times W} \to [0, 1]^{C \times H \times W}$.
  
 
  
