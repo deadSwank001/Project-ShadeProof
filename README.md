@@ -4,7 +4,7 @@ Project-ShadeProof provides a PyQt desktop interface for running surrogate-model
 
 ## Zenodo DOI setup
 
-This repository includes Zenodo metadata in `/home/runner/work/Project-ShadeProof/Project-ShadeProof/.zenodo.json` so releases can be archived with a DOI.
+This repository includes Zenodo metadata in `.zenodo.json` so releases can be archived with a DOI.
 
 To publish and mint a DOI:
 
