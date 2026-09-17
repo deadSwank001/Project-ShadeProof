@@ -1,0 +1,29 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# PyTorch checkpoints and model weights
+*.pt
+*.pth
+*.bin
+*.safetensors
+models/
+
+# Neptune local run metadata
+.neptune/
+
+# Secrets and environment configs
+.env
+*.key
+credentials.json
+
+# IDE / OS metadata
+.DS_Store
+.vscode/
+.idea/
