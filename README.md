@@ -49,6 +49,8 @@ Project start-: September 2023: last correspondence with the U: March 1st.
 somewhat similar-; good paper of reference.
 https://openreview.net/pdf?id=p4xLHcTLRwh
 
+https://community.neptune-software.com/topics/neptune-dxp/blogs/neptune--d-x-p----architecture--diagrams
+
 SAND Labs-: multiple citations similar : 'On the Feasibility of Poisoning Text-to-Image AI Models via Adversarial Mislabeling
 Stanley Wu, Ronik Bhaskar, Anna Yoo-Jeong Ha, Shawn Shan, Haitao Zheng, Ben Y. Zhao -Taiwan; October, 2025'
 
