@@ -1,5 +1,5 @@
 # Copyright (c) 2026 David Burmeister. All rights reserved.
-#wraps PyQT to Neptune-backend
+# wraps PyQT to Neptune-backend
 
 import sys
 from PyQt6.QtWidgets import (
