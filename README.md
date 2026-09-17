@@ -53,6 +53,53 @@ Etc. ^
 -- https://sandlab.cs.uchicago.edu/pubs.html
  *discrepancy: found 'Project NightShade';of Vault 7 fame- no sited reverences to this project-: will call it -"v7.NightShade" for sake of this project.-  -- https://wikileaks.org/vault7/document/NightshadeUsersManual/page-3/#pagination
 
+
+---
+language:
+- en
+license: apache-2.0
+tags:
+- adversarial-robustness
+- data-poisoning
+- dataset-sanitization
+- diffusion-models
+- vision-language
+- clip
+- pytorch
+pipeline_tag: image-feature-extraction
+inference: false
+---
+# Project-ShadeProof
+### Empirical Evaluation of Surrogate Adversarial Perturbations and Dataset Sanitization Against Generative Data Poisoning
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22811993.svg)](https://doi.org/10.5281/zenodo.22811993)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22811994.svg)](https://doi.org/10.5281/zenodo.22811994)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Framework](https://img.shields.io/badge/PyTorch-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![UI](https://img.shields.io/badge/PyQt-6-green.svg)](https://riverbankcomputing.com/software/pyqt/)
+[![Tracking](https://img.shields.io/badge/Neptune-Cloud_Telemetry-blueviolet.svg)](https://neptune.ai/)
+---
+## Abstract
+Data poisoning attacks targeting text-to-image diffusion models—most prominently demonstrated by prompt-specific surrogate perturbation systems such as *Nightshade* and style-cloaking frameworks like *Glaze*—exploit visual-language feature representations (e.g., CLIP, OpenCLIP) to induce concept confusion during downstream training. By subtly manipulating pixel matrices under imperceptible $\ell_\infty$ bounds, an attacker can coerce a model into associating source concepts (e.g., *a dog*) with disjoint target semantic attractors (e.g., *a leather handbag*).
+**Project-ShadeProof** establishes a reproducible, open-source scientific framework to evaluate surrogate-model adversarial vulnerability and benchmark data sanitization defenses. ShadeProof implements:
+1. **Mathematical Surrogate Attack Optimization**: Constrained Projected Gradient Descent ($\text{PGD}\text{-}\ell_\infty$) and Fast Gradient Sign Method ($\text{FGSM}$) in vision-language latent space.
+2. **Defensive Dataset Sanitization Suite**: Evaluation of spatial, frequency-domain (JPEG lossy DCT quantization), total variation denoising, and latent representation anomaly detection.
+3. **Dual Telemetry & Scientific Interface**: A rich PyQt6 research GUI alongside headless automated benchmark runners compatible with Neptune.ai cloud logging.
+---
+## Threat Model & Mathematical Formulation
+```mermaid
+flowchart LR
+    subgraph Threat ["Adversarial Perturbation Engine"]
+        x["Clean Image x ∈ [0, 1]"] --> PGD["PGD-L_inf Optimization"]
+        z_tgt["Target Concept z_tgt"] --> PGD
+        PGD --> x_adv["Adversarial Sample x_adv = x + δ"]
+    end
+    subgraph Defense ["Dataset Sanitization Pipeline"]
+        x_adv --> Filter["Purification Filter T_san(·)"]
+        Filter --> x_san["Sanitized Image x_san"]
+    end
+    subgraph Evaluation ["Academic Evaluation & Metrics"]
+        x_san --> Cosine["Latent Cosine Shift Δcos"]
  
  
 
