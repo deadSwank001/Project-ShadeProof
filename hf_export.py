@@ -1,59 +1,47 @@
-"""
-Project-ShadeProof: Hugging Face Model Configuration
-Copyright (c) 2026 David Burmeister. All rights reserved.
-Licensed under the Apache License, Version 2.0.
+"""Export Project-ShadeProof v2 model artifacts for Hugging Face."""
 
-Defines the PretrainedConfig for publishing ShadeProof as a Hugging Face model/macro.
-"""
+import argparse
+import os
 
-from typing import Dict, Any
+from configuration_shadeproof import ShadeProofConfig
+from modeling_shadeproof import ShadeProofSanitizer
 
 
-class ShadeProofConfig:
-    """
-    Configuration class for the ShadeProof Sanitizer and Adversarial Defense model.
-    Compatible with Hugging Face PretrainedConfig schemas.
-    """
-    model_type = "shadeproof"
+def build_model(defense_type: str, defense_strength: float, profile: str) -> ShadeProofSanitizer:
+    config = ShadeProofConfig(
+        defense_type=defense_type,
+        defense_strength=defense_strength,
+        runtime_profile=profile,
+    )
+    return ShadeProofSanitizer(config=config)
 
-    def __init__(
-        self,
-        surrogate_backbone: str = "openai/clip-vit-base-patch32",
-        epsilon_budget: float = 8.0 / 255.0,
-        defense_type: str = "jpeg_compression",
-        defense_strength: float = 1.0,
-        anomaly_threshold: float = 0.15,
-        embedding_dim: int = 512,
-        image_size: int = 224,
-        **kwargs: Any,
-    ):
-        self.surrogate_backbone = surrogate_backbone
-        self.epsilon_budget = epsilon_budget
-        self.defense_type = defense_type
-        self.defense_strength = defense_strength
-        self.anomaly_threshold = anomaly_threshold
-        self.embedding_dim = embedding_dim
-        self.image_size = image_size
-        self.architectures = ["ShadeProofSanitizer"]
 
-        for k, v in kwargs.items():
-            setattr(self, k, v)
+def write_readme(export_dir: str, config: ShadeProofConfig):
+    path = os.path.join(export_dir, "README.md")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("# Project-ShadeProof v2\n\n")
+        f.write("Defensive-first sanitizer model for poisoning reversal and detection.\n\n")
+        f.write("## Config\n")
+        f.write(f"- defense_type: `{config.defense_type}`\n")
+        f.write(f"- defense_strength: `{config.defense_strength}`\n")
+        f.write(f"- runtime_profile: `{config.runtime_profile}`\n")
 
-    def to_dict(self) -> Dict[str, Any]:
-        """Serializes configuration to dictionary format."""
-        return {
-            "model_type": self.model_type,
-            "architectures": self.architectures,
-            "surrogate_backbone": self.surrogate_backbone,
-            "epsilon_budget": self.epsilon_budget,
-            "defense_type": self.defense_type,
-            "defense_strength": self.defense_strength,
-            "anomaly_threshold": self.anomaly_threshold,
-            "embedding_dim": self.embedding_dim,
-            "image_size": self.image_size,
-        }
 
-    @classmethod
-    def from_dict(cls, config_dict: Dict[str, Any]) -> "ShadeProofConfig":
-        """Instantiates configuration from dictionary."""
-        return cls(**config_dict)
+def main():
+    parser = argparse.ArgumentParser(description="Export ShadeProof v2 model for HF.")
+    parser.add_argument("--export-dir", default="./hf_model")
+    parser.add_argument("--defense-type", default="adaptive_reversal")
+    parser.add_argument("--defense-strength", type=float, default=1.0)
+    parser.add_argument("--runtime-profile", default="default")
+    args = parser.parse_args()
+
+    model = build_model(args.defense_type, args.defense_strength, args.runtime_profile)
+    os.makedirs(args.export_dir, exist_ok=True)
+    model.save_pretrained(args.export_dir)
+    write_readme(args.export_dir, model.config)
+
+    print(f"[+] Export complete: {args.export_dir}")
+
+
+if __name__ == "__main__":
+    main()
